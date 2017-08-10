@@ -34,19 +34,20 @@ coords_2 <-
 # create the first polygon
 poly_1 <- st_polygon(list((coords_1))) 
 class(poly_1)
-# convert it into a simple feature collection while adding a coordinate
-# reference
-poly_1 <- st_sfc(poly_1, crs = 4326)
+# convert it into a simple feature collection 
+poly_1 <- st_sfc(poly_1)
+# you could als add a a coordinate reference
+# poly_1 <- st_sfc(poly_1, crs = 4326)
 class(poly_1)
 # finally, convert it into an sf-object
-poly_1 <- st_sf(poly_1)
+poly_1 <- st_sf(geometry = poly_1)
 # you could also add attribute data
 # st_sf(data.frame(id = 1, name = "poly_1"), geometry = poly_1)
 
 # create a second polygon
 poly_2 <- st_polygon(list((coords_2))) %>%
-  st_sfc(., crs = 4326) %>%
-  st_sf
+  st_sfc %>%
+  st_sf(geometry = .)
 # visualize it
 plot(poly_1, xlim = c(-1, 1), ylim = c(-1, 1))
 plot(poly_2, add = TRUE)
@@ -76,7 +77,7 @@ int <- run_qgis("qgis:intersection", params = params, load_output = TRUE)
 # visualize it
 plot(poly_1, xlim = c(-1, 1), ylim = c(-1, 1))
 plot(poly_2, add = TRUE)
-plot(int, col = "blue", add = TRUE)
+plot(int, col = "lightblue", add = TRUE)
 
 #**********************************************************
 # 3 YOUR TURN----------------------------------------------
