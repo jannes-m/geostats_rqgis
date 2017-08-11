@@ -17,6 +17,8 @@
 #**********************************************************
 
 # attach packages
+# just in case let's install the developer version
+devtools::install_github("jannes-m/RQGIS")
 library("RQGIS")
 library("sf")
 library("raster")

@@ -39,7 +39,8 @@ browseURL("https://gitlab.com/qgisapi/networkapi#testing")
 # Linux: /usr/share/qgis/python/plugins
 
 # install rqgisapi
-devtools::install_git('https://gitlab.com/qgisapi/rqgisapi.git', quiet = FALSE)
+# devtools::install_git('https://gitlab.com/qgisapi/rqgisapi.git', 
+#                       quiet = FALSE)
 # tutorial
 browseURL("http://qgisapi.gitlab.io/rqgisapi/articles/tutorial.html")
 
