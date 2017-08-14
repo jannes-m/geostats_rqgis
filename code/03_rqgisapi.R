@@ -17,11 +17,11 @@
 
 # attach packages
 library("RQGIS")
-library("rqgisapi")
+library("qgisremote")
 library("sf")
 
 # define directories
-dir_main <- "D:/uni/fsu/teaching/misc/geostats"
+dir_main <- "D:/uni/fsu/teaching/misc/geostats_rqgis"
 dir_data <- file.path(dir_main, "data")
 dir_ima <- file.path(dir_main, "images")
 
@@ -38,11 +38,11 @@ browseURL("https://gitlab.com/qgisapi/networkapi#testing")
 # Windows: C:/OSGeo4W64/apps/qgis/python/plugins
 # Linux: /usr/share/qgis/python/plugins
 
-# install rqgisapi
-# devtools::install_git('https://gitlab.com/qgisapi/rqgisapi.git', 
+# install qgisremote.git
+# devtools::install_git('https://gitlab.com/qgisapi/qgisremote.git', 
 #                       quiet = FALSE)
 # tutorial
-browseURL("http://qgisapi.gitlab.io/rqgisapi/articles/tutorial.html")
+browseURL("https://qgisapi.gitlab.io/qgisremote/articles/tutorial.html/")
 
 # open QGIS manually or try
 if (Sys.info()["sysname"] == "Windows") {
@@ -72,7 +72,7 @@ iface.addTileLayer('http://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
 # add our points layer to the QGIS map canvas
 iface.addRasterLayer(pred_1, layerName = "pred")
 # Properties - STyle - Render type: Singleband pseudocolor
-iface.addVectorLayer(random_points, name = 'points')
+iface.addVectorLayer(st_transform(random_points, 4326), baseName = "points")
 
 # since we have added first a google map canvas, the crs is 3857, and we need to
 # use the corresponding coordinates to center our map (otherwise it would have
@@ -85,14 +85,9 @@ x <- random_points %>%
   st_transform(., 3857) %>%
   st_coordinates
 # take the mean of the xy-columns and convert the point into an sfc-object
-x <- colMeans(x) %>%
-  st_point %>%
-  st_sfc
-# extract the coordinate
-x <- st_coordinates(x) %>%
-  as.numeric
+x <- colMeans(x)
 
-mapCanvas.setCenter(x[1], x[2])
+mapCanvas.setCenter(x[[1]], x[[2]])
 mapCanvas.zoomScale(15000)
 # zoom out again
 # mapCanvas.zoomToFullExtent()
@@ -100,7 +95,7 @@ mapCanvas.zoomScale(15000)
 x <- mapLayers()
 names(x)
 # retrieve our edited points layer (just attribute data)
-features <- mapLayer.getFeatures(x[[2]])
+features <- mapLayer.getFeatures(x[[3]])
 # retrieve an sf-object
-layerdata <- mapLayer.getFeatures(x[[2]], geometry = TRUE)
+layerdata <- mapLayer.getFeatures(x[[3]], geometry = TRUE)
 plot(st_geometry(layerdata))

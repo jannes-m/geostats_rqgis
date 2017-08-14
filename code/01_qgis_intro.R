@@ -58,7 +58,28 @@ plot(poly_2, add = TRUE)
 # 2 INTERSECTION USING RQGIS-------------------------------
 #**********************************************************
 
-# first of all, we need to find out which function might do this for us
+# set_env tries to find automatically your QGIS installation (this might take a while)
+# But it caches its output so it only takes long for one time.
+set_env()
+# You can also indicate the path to your QGIS installation (much faster), in my
+# case:
+# set_env("C:/OSGeo4W64/", dev = TRUE)
+
+# open_app establishes the Python tunnel
+open_app()
+# you don't have to run it explicitly, all subsequent RQGIS functions will check
+# if a Python tunnel was established, and if not it will open one
+
+# find_algorithms lets you find out about the available geoalgorithms
+algs <- find_algorithms()
+length(algs)
+# in my case, I have 940 geoalgorithms at my disposal
+tail(algs)
+
+# you can also use regular expressions with find_algorithms We are looking for a
+# function that does an intersection, so maybe the term intersection will also
+# appear in its name and/or short descriptions
+# which function might do this for us
 find_algorithms("intersec")
 open_help("qgis:intersection")
 get_usage("qgis:intersection")
@@ -72,7 +93,10 @@ int <- run_qgis("qgis:intersection", INPUT = poly_1, INPUT2 = poly_2,
 params <- get_args_man("qgis:intersection")
 # we can also use a path to a spatial object
 st_write(poly_1, file.path(tempdir(), "poly_1.shp"))
+# You can also geopackage GPKG
+# st_write(poly_1, file.path(tempdir(), "poly_1.gpkg"))
 params$INPUT <- file.path(tempdir(), "poly_1.shp")
+# params$INPUT <- file.path(tempdir(), "poly_1.gpkg")
 params$INPUT2 <- poly_2
 params$OUTPUT <- "out.shp"
 int <- run_qgis("qgis:intersection", params = params, load_output = TRUE)
