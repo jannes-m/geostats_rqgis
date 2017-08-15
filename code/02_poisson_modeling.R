@@ -1,4 +1,4 @@
-# Filename: poisson_modeling.R (2017-12-03)
+# Filename: poisson_modeling.R (2017-08-15)
 #
 # TO DO: Retrieving predictors and Poisson modeling
 #
@@ -30,7 +30,7 @@ library("dplyr")
 library("mapview")
 
 # define directories
-dir_main <- "D:/uni/fsu/teaching/misc/geostats"
+dir_main <- "D:/uni/fsu/teaching/misc/geostats_rqgis"
 dir_data <- file.path(dir_main, "data")
 dir_ima <- file.path(dir_main, "images")
 
@@ -99,7 +99,7 @@ for (i in c("dem1", "dem2", "ndvi")) {
 
 
 # extract values to points using local interpolation unfortunately,
-# RSAGA::pick.from.ascii.grids does not support sf so far Hence, we need to just
+# RSAGA::pick.from.ascii.grids does not support sf so far. Hence, we need to just
 # keep the attribute values of random_points by getting rid off the sticky
 # geometry column
 vals <- random_points %>% 
@@ -240,6 +240,7 @@ plot(svgm, xlab = "distance (m)", ylab = "Semivariance", col = "black",
 # Finally, check for overdispersion since we are using a Poisson model
 
 # plot the residuals
+dev.off()
 plot(resids)
 # plot the residuals against the fitted values
 plot(resids, fitted(fit))
