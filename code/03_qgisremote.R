@@ -1,6 +1,6 @@
-# Filename: 03_rqgisapi.R (2017-08-01)
+# Filename: 03_qgisremote.R (2017-08-01)
 #
-# TO DO: Checking out the Network API and rqgisapi
+# TO DO: Checking out the Network API and qgisremote
 #
 # Author(s): Jannes Muenchow
 #
@@ -72,7 +72,8 @@ iface.addTileLayer('http://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}',
 # add our points layer to the QGIS map canvas
 iface.addRasterLayer(pred_1, layerName = "pred")
 # Properties - STyle - Render type: Singleband pseudocolor
-iface.addVectorLayer(st_transform(random_points, 4326), baseName = "points")
+iface.addVectorLayer(random_points, baseName = "points")
+# iface.addVectorLayer(st_transform(random_points, 4326), baseName = "points")
 
 # since we have added first a google map canvas, the crs is 3857, and we need to
 # use the corresponding coordinates to center our map (otherwise it would have
