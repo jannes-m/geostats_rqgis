@@ -93,8 +93,10 @@ values(dem2) <- my_poly[, 2]
 
 # export altitudes and NDVI as ASCII-rasterfiles
 for (i in c("dem1", "dem2", "ndvi")) {
-  writeRaster(get(i), file.path(dir_data, paste0(i, ".asc")), 
-              format = "ascii", prj = TRUE, overwrite = TRUE)  
+  writeRaster(get(i), 
+              file.path(dir_data, paste0(i, ".asc")), 
+              format = "ascii", prj = TRUE, 
+              overwrite = TRUE)  
 }
 
 
@@ -126,7 +128,7 @@ head(vals)
 # 3 LITTLE DATA EXPLORATION--------------------------------
 #**********************************************************
 
-# Have a lookt at the distribution
+# Have a look at the distribution
 histogram(~ spri + dem1 + dem2 + cslope + ndvi + carea,
           data = vals,
           scales = list(x = list(relation = "free"),
